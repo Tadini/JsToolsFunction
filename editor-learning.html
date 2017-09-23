@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.bootcss.com/minireset.css/0.0.2/minireset.min.css" rel="stylesheet">
+  <title>Document</title>
+  <style>
+    .normal{
+      border: 1px solid #ddd;
+      padding: 10px ;
+      line-height: 14px;
+      width: 420px;
+      float: left;
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+    }
+    .editor{
+      border: 1px solid #fc0;
+      padding: 10px;
+      width: 420px;
+      float: left;
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+    }
+    .clear{
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  <div class="normal">一段文字用来选中的</div>
+  <div class="editor" id="editor" contenteditable="true">
+    一个工厂函数，这个函数返回一个链式实用对象，用返回对象方法来在回调队列中注册多个回调， 调用回调队列，传递任何同步或异步函数的成功或失败状态。
+  </div>
+  <textarea class="editor" id="txt" name=""  cols="20" rows="10">
+    一个工厂函数，这个函数返回一个链式实用对象，用返回对象方法来在回调队列中注册多个回调， 调用回调队列，传递任何同步或异步函数的成功或失败状态。
+  </textarea>
+  <p class="clear" id="tips"></p>
+  <button id="btn">获取焦点信息</button>
+  <button id="all">选中全部</button>
+  <button id="end">光标放到末尾</button>
+  <button id="start">光标放到开始</button>
+  <button id="get">获取选中文本</button>
+  <button id="del">删除选中文本</button>
+  <button id="insert">选中并替换文本</button>
+  <script>
+    var selectedRange = '';
+    var $ = function (id) {
+      return document.querySelector(id);
+    }
+    var editor = $('#editor');
+    var txt = $('#txt');
+    $('#btn').onclick = function () {
+      var selection, selectedRange, selectedText;
+      var jsonData = null;
+      selection = window.getSelection();
+      // 判断是否存在选中的文字
+      if (!selection.rangeCount) {
+        return false;
+      }
+      selectedRange = selection.getRangeAt(0);
+      selectedText = selection.toString();
+      if(selectedRange.getBoundingClientRect) {
+				var rect = selectedRange.getBoundingClientRect();
+				if(rect && rect.left && rect.top && rect.right && rect.bottom) {
+					jsonData = {
+						left: parseInt(rect.left),
+						top: parseInt(rect.top),
+						width: parseInt(rect.right - rect.left),
+						height: parseInt(rect.bottom - rect.top)
+					};
+
+          console.log(jsonData)
+        }
+			}
+      // console.log(editor.selectionStart,editor.selectionEnd);
+      console.log(selection, selectedRange, selectedText);
+    }
+    // 全选contenteditable中的文字
+    $('#all').onclick = function () {
+      var selection = window.getSelection();
+      if (selection) {
+        selection.selectAllChildren(editor);
+      }
+    }
+    // 设置光标到末尾
+    $('#end').onclick = function () {
+      var selection = window.getSelection();
+      console.log(editor)
+      if (selection) {
+        selection.selectAllChildren(editor);
+        selection.collapseToEnd();
+      }
+    }
+    // 设置光标到开始
+    $('#start').onclick = function () {
+      var selection = window.getSelection();
+      console.log(editor)
+      if (selection) {
+        selection.selectAllChildren(editor);
+        selection.collapseToStart();
+      }
+    }
+    // 获取选中文本
+    $('#get').onclick = function () {
+      var range = null;
+      var selection = window.getSelection();
+      if (selection) {
+        range = selection.getRangeAt(0);
+        $('#tips').innerHTML = range;
+      }
+    }
+
+    // 删除选中的文本
+    $('#del').onclick = function () {
+      var range = null;
+      var selection = window.getSelection();
+      if (selection) {
+        range = selection.getRangeAt(0);
+        range.deleteContents();
+      }
+    }
+    $('#insert').onclick = function() {
+      console.log(txt.selectionStart,txt.selectionEnd);
+    }
+  </script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
