@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<title>Document</title>
+</head>
+<body>
+	<button id="do">do this</button>
+	<time></time>
+	<script src="https://resource.yunshuxie.com/common/js/zepto.min.js"></script>
+	<script src="./js/soundmanager2.js"></script>
+	<script>
+		soundManager.setup({
+			onready: function() {
+				var sound = createSound('https://oss-ysx-pic.yunshuxie.com/course/2017/09/23/14/1506146715186.mp3')
+				sound.play()
+			}
+		})
+		// soundManager 必须在js加载完成之后才可load音频
+		/*window.onload = function() {
+			var mySound = soundManager.createSound({ 
+				id: 'ms2',
+			  url: 'https://oss-ysx-pic.yunshuxie.com/course/2017/09/23/14/1506146715186.mp3'
+			});
+			mySound.play();
+		}*/
+		// document.addEventListener('DOMContentLoaded', function() {
+		// 	var mySound = soundManager.createSound({ 
+		// 		id: 'ms2',
+		// 	  url: 'https://oss-ysx-pic.yunshuxie.com/course/2017/09/23/14/1506146715186.mp3'
+		// 	});
+		// 	mySound.play();
+		// })
+		// $('#do').on('click', function() {
+		// 	var mySound = soundManager.createSound({ 
+		// 		id: 'ms2',
+		// 	  url: 'https://oss-ysx-pic.yunshuxie.com/course/2017/09/23/14/1506146715186.mp3'
+		// 	});
+		// 	mySound.play();
+		// })
+		
+		function createSound(url) {
+			var sound = soundManager.createSound({
+				url: url,
+				whileplaying: function() {
+					var progressMaxLeft = 100,
+              left,
+              width;
+
+          left = Math.min(progressMaxLeft, Math.max(0, (progressMaxLeft * (this.position / this.durationEstimate)))) + '%';
+          width = Math.min(100, Math.max(0, (100 * (this.position / this.durationEstimate)))) + '%';
+          if (this.duration) {
+          	// console.log('whileplaying',getTime(this.position, true))
+          $('time').html(this.duration +'||' + getTime(this.position, true))
+          }
+          // $('time').html(this.duration +'||' +this.position)
+          // console.log('whileplaying', this.duration,this.position)
+				},
+        onbufferchange: function(isBuffering) {
+          if (isBuffering) {
+            console.log('isBuffering');
+          } else {
+            console.log('buffering no');
+          }
+        },
+        // 开始播放
+        onplay: function() {
+          
+        },
+        // 暂停操作
+        onpause: function() {
+          
+        },
+        // 暂停之后点击重新播放
+        onresume: function() {
+        },
+        whileloading: function() {
+         
+        },
+        onload: function(ok) {
+          
+        },
+        onerror: function() {
+          
+        },
+        onstop: function() {
+          
+        },
+        onfinish: function() {
+          
+        }
+			});
+			return sound;
+		}
+		function callback(method, oSound) {
+      if (method) {
+        // fire callback, passing current player and sound objects
+        if (exports.on && exports.on[method]) {
+          exports.on[method](exports, oSound);
+        } else if (players.on[method]) {
+          players.on[method](exports, oSound);
+        }
+      }
+    }
+    function getTime(msec, useString) {
+
+      // convert milliseconds to hh:mm:ss, return as object literal or string
+
+      var nSec = Math.floor(msec / 1000),
+          hh = Math.floor(nSec / 3600),
+          min = Math.floor(nSec / 60) - Math.floor(hh * 60),
+          sec = Math.floor(nSec - (hh * 3600) - (min * 60));
+
+      // if (min === 0 && sec === 0) return null; // return 0:00 as null
+
+      return (useString ? ((hh ? hh + ':' : '') + (hh && min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec)) : { min: min, sec: sec });
+
+    }
+	</script>
+</body>
+</html>
