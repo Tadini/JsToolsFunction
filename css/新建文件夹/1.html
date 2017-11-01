@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<button>a1</button>
+	<style>
+		button{
+			padding: 6px 16px;
+			border: 1px solid #446d88;
+			background-size: #58a linear-gradient(#77a0bb, #58a);
+			border-radius: 4px;
+			box-shadow: 0 1px 5px gray;
+			color: white;
+			text-shadow: 0 -1px 1px #335166;
+			font-size: 20px;
+			line-height: 30px;
+		}
+	</style>
+	<div id="column">多列文本column-width</div>
+	SourceMap针对编译文件之后的调试技术，很多调试工具开始支持SourceMap了， 会告诉浏览器哪些编译生成的css代码对应哪些预处理器css代码的效果
+	<style>
+		ul{--accent-color: purple;}
+		ol{--accent-color: rebeccapurple;}
+		li{background-color: var(--accent-color);}
+	</style>
+	<ol>
+		<li>1</li>
+	</ol>
+	<br>
+	<br>
+	<ul>
+		<li>1</li>
+	</ul>
+</body>
+</html>
